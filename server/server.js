@@ -1,10 +1,12 @@
 const connect = require("./configs/db");
 
 const app = require("./index");
-const PORT = 2345;
-app.listen(PORT, async () => {
+
+
+
+app.listen(2345, async (req, res) => {
   await connect();
-  console.log(`connected on ${PORT}`);
+  console.log(`connected on 2345`);
 });
 
 module.exports = app;
