@@ -12,6 +12,7 @@ function Album() {
     getAlbums();
   }, []);
 
+  
   const getAlbums = () => {
     axios
       .get(`http://localhost:2345/album/${name}`)
