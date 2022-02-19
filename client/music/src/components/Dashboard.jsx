@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -13,8 +13,7 @@ const useQuery = () => {
 function Dashboard() {
   const [albums, setAlbums] = React.useState(false);
   // const [page, setPage] = useState(+query.get("page") || 1);
-  console.log("albums:", albums);
-
+  const [album, setAlbum] = useState();
   // const query = useQuery();
 
   // const setCurrentPage = (event, value) => {
@@ -43,7 +42,9 @@ function Dashboard() {
             return (
               <div className="album-img-div" key={el._id}>
                 <img src={el.album_img} alt=""></img>
-                <h3>{el.name}</h3>
+                <Link to={`/album/${el.name}`}>
+                <h3 style={{paddingLeft:"30px"}}>{el.name}</h3>
+                </Link>
               </div>
             );
           })
