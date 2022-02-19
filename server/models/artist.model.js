@@ -1,39 +1,39 @@
-const mongoose = require("mongoose")
-const bcryptjs = require('bcryptjs');
-const artistSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: false
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true,
-        minLength: 8,
-        maxLength: 100
-    },
-    
-}, {
+const mongoose = require("mongoose");
+
+const bcrypt = require("bcryptjs");
+
+const artistSchema = new mongoose.Schema(
+  {
+    firstname: { type: String, required: true },
+    lastname: { type: String, required: true },
+    gender: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    profile_pic: { type: String, required: true },
+    role: { type: String, required: true },
+  },
+  {
     versionKey: false,
-    timestamps: true
-})
+    timestamps: true,
+  }
+);
 
 artistSchema.pre("save", function (next) {
-    if (!this.isModified("password")) return next();
-
-    const hash = bcryptjs.hashSync(this.password, 8);
-    this.password = hash
-
+  if (!this.isModified("password")) return next();
+  bcrypt.hash(this.password, 10, (err, hash) => {
+    this.password = hash;
     return next();
-})
+  });
+});
 
 artistSchema.methods.checkPassword = function (password) {
-    const match = bcryptjs.compareSync(password, this.password);
+  return new Promise((resolve, reject) => {
+    bcrypt.compare(password, this.password, function (err, same) {
+      if (err) return reject(err);
+      return resolve(same);
+    });
+  });
+};
 
-    return match;
-}
-module.exports = mongoose.model("artist", artistSchema)
+module.exports = mongoose.model("artist", artistSchema);
