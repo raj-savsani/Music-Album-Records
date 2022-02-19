@@ -3,23 +3,24 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
-  const [userData, setUserData] = React.useState("");
+  const [userData, setUserData] = React.useState({});
   const navigate = useNavigate();
   const handleChange = (e) => {
-    let { id, value } = e.target;
-    id = id === "basic_email" ? "email" : "password";
+    let { name, value } = e.target;
+    // id = id === "basic_email" ? "email" : "password";
     // console.log(id,value)
-    setUserData({ ...userData, [id]: value });
+    setUserData({ ...userData, [name]: value });
   };
   const handleClick = (e) => {
     e.preventDefault();
-    console.log("userdata", userData);
+    // console.log("userdata", userData);
     axios
       .post("http://localhost:2345/login", userData)
       .then((response) => {
         alert("Verified Successfully!");
+        //set token 
         sessionStorage.setItem("user", JSON.stringify(response.data.user));
-        navigate("/home");
+        navigate("/");
       })
       .catch((e) => alert("please provide a valid details"));
   };

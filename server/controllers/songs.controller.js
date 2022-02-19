@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
     const songs = await Songs.create(req.body);
     res.status(200).json({ songs: songs });
   } catch (err) {
-    res.status(500).json({ Status: "failed", error: e.message });
+    res.status(500).json({ Status: "failed", error: err.message });
   }
 });
 router.get("/", async (req, res) => {
@@ -36,7 +36,7 @@ router.get("/", async (req, res) => {
     const total_pages = Math.ceil((await Songs.find().countDocuments()) / size);
     res.status(200).json({ songs, total_pages });
   } catch (err) {
-    res.status(500).json({ Status: "failed", error: e.message });
+    res.status(500).json({ Status: "failed", error: err.message });
   }
 });
 router.get("/:id", async (req, res) => {
@@ -48,7 +48,7 @@ router.get("/:id", async (req, res) => {
       .exec();
     res.status(200).json({ songs: songs });
   } catch (err) {
-    res.status(500).json({ Status: "failed", error: e.message });
+    res.status(500).json({ Status: "failed", error: err.message });
   }
 });
 router.patch("/:id", async (req, res) => {
@@ -62,7 +62,7 @@ router.patch("/:id", async (req, res) => {
       .exec();
     res.status(200).json({ songs: songs });
   } catch (err) {
-    res.status(500).json({ Status: "failed", error: e.message });
+    res.status(500).json({ Status: "failed", error: err.message });
   }
 });
 router.delete("/:id", async (req, res) => {
@@ -70,7 +70,8 @@ router.delete("/:id", async (req, res) => {
     const songs = await Songs.findByIdAndDelete(req.params.id).lean().exec();
     res.status(200).json({ songs: songs });
   } catch (err) {
-    res.status(500).json({ Status: "failed", error: e.message });
+    res.status(500).json({ Status: "failed", error: err.message });
   }
 });
+
 module.exports = router;
