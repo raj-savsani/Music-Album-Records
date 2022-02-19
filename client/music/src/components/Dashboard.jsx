@@ -2,10 +2,25 @@ import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 
+
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
+
 function Dashboard() {
   const [albums, setAlbums] = React.useState(false);
-  const [page, setPage] = React.useState(0);
+  // const [page, setPage] = useState(+query.get("page") || 1);
   console.log("albums:", albums);
+
+  // const query = useQuery();
+
+  // const setCurrentPage = (event, value) => {
+  //   setPage(value);
+  //   history.push(`/home?page=${value}&size=${limit}`);
+  // };
 
   useEffect(() => {
     getAlbums();
@@ -33,11 +48,7 @@ function Dashboard() {
             );
           })
         : null}
-      {albums
-        ? albums.total_pages((el, i) => {
-            <button key={i} onlicks={() => setPage(i + 1)}></button>;
-          })
-        : null}
+      
     </div>
   );
 }
